@@ -3,10 +3,10 @@ function tree = growtrees(data,param)
 %        Base               Each node stores:
 %         1                   trees.idx       - data (index only) which split into this node
 %        / \                  trees.t         - threshold of split function
-%       2   3                 trees.dim       - feature dimension of split function  // vertical or horizontal  
+%       2   3                 trees.dim       - feature dimension of split function
 %      / \ / \                trees.prob      - class distribution of this node
 %     4  5 6  7               trees.leaf_idx  - leaf node index (empty if it is not a leaf node) 
-% [lidx 1 2  3  4] 
+
 disp('Training Random Forest...');
 
 [N,D] = size(data);
@@ -30,7 +30,7 @@ for T = 1:param.num
     
     % Leaf Nodes
     cnt = 1;
-    for n = 1:2^param.depth-1   %// total number of nodes including split and leaf
+    for n = 1:2^param.depth-1   %// not
         if ~isempty(tree(T).node(n).idx) % //if not a leaf
             % Percentage of observations of each class label
             tree(T).node(n).prob = histc(data(tree(T).node(n).idx,end),labels)/length(tree(T).node(n).idx);
@@ -49,7 +49,7 @@ for T = 1:param.num
                     tree(1).prob(cnt_total,:) = tree(T).node(n).prob';
                 end
                 
-                cnt = cnt+1;  %//  
+                cnt = cnt+1;
                 cnt_total = cnt_total + 1;
             end
         end
