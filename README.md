@@ -6,14 +6,14 @@ This is coursework for MLCV 2017.
 
 
 
+Leaf node dim = 0 ; leaf_idx = scalar ;  t = nan ; 
 
 
-## Installation
+spliting node ; dim = 1 or 2 ; leaf_idx =[] ;  t = scalar ; 
 
-		> $ git clone https://github.com/plok6325/MLCV.git  
-
-
-
+		
+stop if meet the max depth or all example index belong to same label 
+		
 
 # Useful toolbox 
 
