@@ -19,16 +19,15 @@ param.split = 'IG';     % Currently support 'information gain' only
 %Aggregating). Show e.g. four data subsets, and discuss the results, and the way you did bagging
 % e.g. the size of each data subset, whether it was with or without replacement.
 
-figure 
+[data_train_sub] =  get_sub_set(data_train , 1) ;
 
-
+ 
+ 
 for i  = 1:4
     subplot(2,2,i)
-  [data_train_sub{i}] =  get_sub_set(data_train , 1) ;
 plot_toydata(data_train_sub{i});
 end
-title ('visualisation of 4 subset')
- 
+title ('visualisation of 4 subset (training )')
 
 %  Now we take one of the data subsets generated above, and grow a tree by recursively splitting
 % the data
