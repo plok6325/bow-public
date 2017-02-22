@@ -20,9 +20,9 @@ hold on;
 plot(data(data(:,end)==3,1), data(data(:,end)==3,2), 'o', 'MarkerFaceColor', [.3 .3 .9], 'MarkerEdgeColor','k');
 
 if ~iter
-    title(sprintf('BEST Split [%i]. IG = %4.2f',dim,ig_best));
+    title(sprintf('BEST Split [%i]. IG = %4.2f. T = %4.2f.',dim,ig_best,t));
 else
-    title(sprintf('Trial %i - Split [%i]. IG = %4.2f',iter,dim,ig_best));
+    title(sprintf('Trial %i - Split [%i]. IG = %4.2f.',iter,dim,ig_best));
 end
 axis([r(1) r(2) r(1) r(2)]);
 hold off;
