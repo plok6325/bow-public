@@ -30,7 +30,7 @@ We randomly select equal number of examples with replacement from the data set. 
 *the respective **class histograms of the node** and its two children nodes, and measure the*
 ***information gains**. Discuss the results.*
 
-**we wrote linear split function ** 
+**we wrote linear split function** 
 
 
 We use log2 to calaculate information gain, we also modify getIG.m 
@@ -46,8 +46,8 @@ The splitfunction is -0.38, and node with second feature greater than -0.38 will
 
 
 *We now recursively split the nodes in the way above to grow the tree. When the tree growth is*
-*done, we save the class distributions in the leaf nodes. **Visualise **the class distributions of some*
-*leaf nodes, and **discuss **the results. What **stopping criteria** did you use? Explain the reasons*
+*done, we save the class distributions in the leaf nodes. **Visualise**the class distributions of some*
+*leaf nodes, and **discuss** the results. What **stopping criteria** did you use? Explain the reasons*
 *behind* 
 
 ![leaf node](context/leafnode.png)
@@ -86,7 +86,7 @@ param.depth = 5;        % trees depth
 param.splitNum = 10;     % Number of split functions to try
 param.split = 'IG'; 
 
- ![4 tree result](context/2D.png)
+![4 tree result](context/2D.png)
 
  **Try** *different parameter values of RF and see the effects. RF has a few of important parameters,*
 *which need to be set to achieve good results. Here we try changing the number of trees, the depth*
@@ -106,7 +106,10 @@ increase depth increase accuracy
 
 ![4 tree result](context/2D 100 trees.png)
 
+## linear split function 
 
+
+![linear ](context/2D 100 trees linear .png)
 
 
 
