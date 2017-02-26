@@ -7,7 +7,7 @@ function [ data_train, data_query ] = getData( MODE )
 %   3. Toy_Circle
 %   4. Caltech 101
 
-showImg = 1; % Show training & testing images and their image feature vector (histogram representation)
+showImg = 0; % Show training & testing images and their image feature vector (histogram representation)
 
 PHOW_Sizes = [4 8 10]; % Multi-resolution, these values determine the scale of each layer.
 PHOW_Step = 8; % The lower the denser. Select from {2,4,8,16}
@@ -128,15 +128,27 @@ switch MODE
         
         % write your own codes here
         % ...
-            
-       
+        %##########################
+        [Centre, idx] = kmeans(desc_sel ,numBins );
+        
+        
+        %##########################
         disp('Encoding Images...')
         % Vector Quantisation
         
         % write your own codes here
         % ...
-  
+        Centre= double(Centre);
+        i=0;
+        for class=1:10
+            for sample= 1:15
+                i=i+1;
+                image=double(desc_tr{class,sample});
+                freq(i,:)= [ Quantisation(image,Centre) class];
+            end
+        end
         
+        data_train = freq;
         % Clear unused varibles to save memory
         clearvars desc_tr desc_sel
 end
@@ -144,8 +156,8 @@ end
 switch MODE
     case 'Caltech'
         if showImg
-        figure('Units','normalized','Position',[.05 .1 .4 .9]);
-        suptitle('Testing image samples');
+            figure('Units','normalized','Position',[.05 .1 .4 .9]);
+            suptitle('Testing image samples');
         end
         disp('Processing testing images...');
         cnt = 1;
@@ -170,19 +182,27 @@ switch MODE
                     I = rgb2gray(I);
                 end
                 [~, desc_te{c,i}] = vl_phow(single(I),'Sizes',PHOW_Sizes,'Step',PHOW_Step);
-            
+                
             end
         end
         suptitle('Testing image samples');
-                if showImg
+        if showImg
             figure('Units','normalized','Position',[.5 .1 .4 .9]);
-        suptitle('Testing image representations: 256-D histograms');
+            suptitle('Testing image representations: 256-D histograms');
         end
-
-        % Quantisation
         
+        % Quantisation 
         % write your own codes here
-        % ...
+        % ... 
+        i=0;
+        for class=1:10
+            for sample= 1:15
+                i=i+1;
+                image=double(desc_te{class,sample});
+                freq(i,:)= [ Quantisation(image,Centre) class];
+            end
+        end
+        data_query = freq;
         
         
     otherwise % Dense point for 2D toy data

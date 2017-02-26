@@ -83,7 +83,7 @@ data_test(i,3)=loc;
 end
 
 
-%% visualise 2d
+%visualise 2d
 plot_toydata(data_train);
 
 for class = 1:3 

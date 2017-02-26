@@ -30,6 +30,9 @@ We randomly select equal number of examples with replacement from the data set. 
 *the respective **class histograms of the node** and its two children nodes, and measure the*
 ***information gains**. Discuss the results.*
 
+**we wrote linear split function ** 
+
+
 We use log2 to calaculate information gain, we also modify getIG.m 
 
 Higher information gain contain more informations using this feature will simplify the tree structure. 
@@ -51,7 +54,7 @@ The splitfunction is -0.38, and node with second feature greater than -0.38 will
 
 Some leaf only have one label, but some has many labels. 
 
-There are 2 stoping criteria, one is all the example in leaf node belong to one class, the other is the depth of the leaf reach the maximum we set. 
+There are 3 stoping criterias, one is all the example in leaf node belong to one class, the other is the depth of the leaf reach the maximum we set the 3^rd criteria is the number of instance in a node is lesser than 5. 
 
 In this example, the maximum tree depth we set is 5. subplot 2,2  reaches the max depth. The rest fix the first criteria. 
 
@@ -102,3 +105,15 @@ increase tree number avoid overfitting
 increase depth increase accuracy 
 
 ![4 tree result](context/2D 100 trees.png)
+
+
+
+
+
+
+
+
+# Q3
+
+
+Accuracy = 71.3%  
