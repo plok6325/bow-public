@@ -115,5 +115,9 @@ increase depth increase accuracy
 
 # Q3
 
+##flowchart of bag of words 
 
-Accuracy = 71.3%  
+
+![flow chart](context/flowchart.png)
+
+Accuracy so far = 73.3%  

@@ -115,15 +115,23 @@ switch MODE
                 
                 % For details of image description, see http://www.vlfeat.org/matlab/vl_phow.html
                 [~, desc_tr{c,i}] = vl_phow(single(I),'Sizes',PHOW_Sizes,'Step',PHOW_Step); %  extracts PHOW features (multi-scaled Dense SIFT)
+%                 I = rot90(I);
+%                 [~, desc_tr2{c,i}] = vl_phow(single(I),'Sizes',PHOW_Sizes,'Step',PHOW_Step); %  extracts PHOW features (multi-scaled Dense SIFT)
+%                 I = rot90(I);
+%                  [~, desc_tr3{c,i}] = vl_phow(single(I),'Sizes',PHOW_Sizes,'Step',PHOW_Step); %  extracts PHOW features (multi-scaled Dense SIFT)
+%                
             end
         end
         
+%         desc_tr= [desc_tr desc_tr2 desc_tr3];
+%         
+         
         disp('Building visual codebook...')
         % Build visual vocabulary (codebook) for 'Bag-of-Words method'
-        desc_sel = single(vl_colsubset(cat(2,desc_tr{:}), 10e4)); % Randomly select 100k SIFT descriptors for clustering
+        desc_sel = single(vl_colsubset(cat(2,desc_tr{:}), 20e4)); % Randomly select 100k SIFT descriptors for clustering
         
         % K-means clustering
-        numBins = 256; % for instance,
+        numBins = 512; % for instance,
         
         
         % write your own codes here
@@ -139,9 +147,10 @@ switch MODE
         % write your own codes here
         % ...
         Centre= double(Centre);
+        [m,n]=size(desc_tr);
         i=0;
-        for class=1:10
-            for sample= 1:15
+        for class=1:m
+            for sample= 1:n
                 i=i+1;
                 image=double(desc_tr{class,sample});
                 freq(i,:)= [ Quantisation(image,Centre) class];
@@ -150,7 +159,7 @@ switch MODE
         
         data_train = freq;
         % Clear unused varibles to save memory
-        clearvars desc_tr desc_sel
+        clearvars desc_tr desc_sel freq
 end
 
 switch MODE
@@ -185,7 +194,7 @@ switch MODE
                 
             end
         end
-        suptitle('Testing image samples');
+        %suptitle('Testing image samples');
         if showImg
             figure('Units','normalized','Position',[.5 .1 .4 .9]);
             suptitle('Testing image representations: 256-D histograms');
@@ -194,6 +203,7 @@ switch MODE
         % Quantisation 
         % write your own codes here
         % ... 
+        
         i=0;
         for class=1:10
             for sample= 1:15

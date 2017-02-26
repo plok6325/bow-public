@@ -128,7 +128,7 @@ trees = growTrees(data_train,param);
 
 
 % Evaluate/Test Random Forest ...
-ground_truth = data_train(:,end);
+ground_truth = data_test(:,end);
 res= testTrees_fast(data_test(:,1:end),trees);
 res(res==0)=1;
 for i =  1 :length (res(:,1))
@@ -149,12 +149,13 @@ get_classification_rate(cmatrix)
 % .....
 
 %% external library 
+ground_truth = data_test(:,end);
 opts= struct;
 opts.depth= 5;
 opts.numTrees= 200;
 opts.numSplits= 8;
 opts.verbose= true;
-opts.classifierID= 4; % weak learners to use. Can be an array for mix of weak learners too
+opts.classifierID= 3; % weak learners to use. Can be an array for mix of weak learners too
 
 X =data_train(:,1:end);
 Y = data_train(:,end);
