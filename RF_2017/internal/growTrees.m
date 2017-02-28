@@ -11,7 +11,7 @@ disp('Training Random Forest...');
 
 [N,D] = size(data);
 frac = 1 - 1/exp(1); % Bootstrap sampling fraction: 1 - 1/e (63.2%)
-
+param.splitmethod=1;
 cnt_total = 1;
 [labels,~] = unique(data(:,end));
 for T = 1:param.num

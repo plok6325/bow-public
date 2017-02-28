@@ -30,6 +30,9 @@ We randomly select equal number of examples with replacement from the data set. 
 *the respective **class histograms of the node** and its two children nodes, and measure the*
 ***information gains**. Discuss the results.*
 
+**we wrote linear split function** 
+
+
 We use log2 to calaculate information gain, we also modify getIG.m 
 
 Higher information gain contain more informations using this feature will simplify the tree structure. 
@@ -43,15 +46,15 @@ The splitfunction is -0.38, and node with second feature greater than -0.38 will
 
 
 *We now recursively split the nodes in the way above to grow the tree. When the tree growth is*
-*done, we save the class distributions in the leaf nodes. **Visualise **the class distributions of some*
-*leaf nodes, and **discuss **the results. What **stopping criteria** did you use? Explain the reasons*
+*done, we save the class distributions in the leaf nodes. **Visualise**the class distributions of some*
+*leaf nodes, and **discuss** the results. What **stopping criteria** did you use? Explain the reasons*
 *behind* 
 
 ![leaf node](context/leafnode.png)
 
 Some leaf only have one label, but some has many labels. 
 
-There are 2 stoping criteria, one is all the example in leaf node belong to one class, the other is the depth of the leaf reach the maximum we set. 
+There are 3 stoping criterias, one is all the example in leaf node belong to one class, the other is the depth of the leaf reach the maximum we set the 3^rd criteria is the number of instance in a node is lesser than 5. 
 
 In this example, the maximum tree depth we set is 5. subplot 2,2  reaches the max depth. The rest fix the first criteria. 
 
@@ -83,7 +86,7 @@ param.depth = 5;        % trees depth
 param.splitNum = 10;     % Number of split functions to try
 param.split = 'IG'; 
 
- ![4 tree result](context/2D.png)
+![4 tree result](context/2D.png)
 
  **Try** *different parameter values of RF and see the effects. RF has a few of important parameters,*
 *which need to be set to achieve good results. Here we try changing the number of trees, the depth*
@@ -102,3 +105,60 @@ increase tree number avoid overfitting
 increase depth increase accuracy 
 
 ![4 tree result](context/2D 100 trees.png)
+
+## linear split function 
+
+
+![linear ](context/2D 100 trees linear .png)
+
+
+#flowchart of bag of words 
+
+
+![flow chart](context/flowchart.png)
+
+
+## Q3 
+Current setting: 
+- vocabulary size = 256
+
+## Q3.1
+
+
+![training](context/caltech training example.png)
+
+![testing](context/caltech testing example.png)
+
+**describe vector quantisation process** 
+    
+    for one in phow 
+    	find the vocabulary with minimum distance (L2)
+		add 1 to the vocabulary 
+
+## Q3.2
+
+	classification_rate = 72.8%
+
+	confusion matrix = 
+	10     0     0     0     0     0     0     0     0     0
+     0    15     0     0     0     0     1     0     0     0
+     0     0     7     0     0     0     1     0     0     2
+     0     0     0     7     0     0     0     0     0     0
+     1     0     2     2    11     1     2     0     1     2
+     3     0     0     0     1    13     1     0     0     0
+     1     0     1     1     0     1     8     1     0     0
+     0     0     0     3     0     0     0    14     0     0
+     0     0     3     2     2     0     2     0    13     0
+     0     0     2     0     1     0     0     0     1    11
+
+more time is required to train a more complex forest. 
+compare to training, testing takes less time. 
+The complexity for both training and testing are all big o(n)
+more vocabulary will increase the accuracy 
+
+
+## Q3.3 
+
+
+
+Accuracy so far = 73.3%  

@@ -33,9 +33,11 @@ title ('visualisation of 4 subset')
 %%  Now we take one of the data subsets generated above, and grow a tree by recursively splitting
 % the data
 param.num = 100;         % Number of trees
-param.depth = 9;        % trees depth
-param.splitNum = 10;     % Number of split functions to try
+param.depth = 5;        % trees depth
+param.splitNum = 20;     % Number of split functions to try
 param.split = 'IG';     % Currently support 'information gain' only
+param.splitmethod= 2;  % splitmethod == 1  axis align ; splitmethod ==2 ,linear 
+
 trees = growTrees(data_train,param);
 
 %% plot leaf node dist 
@@ -50,7 +52,8 @@ end
 test_point = [-.5 -.7; .4 .3; -.7 .4; .5 -.5];
 
 for n=1:4
-    leaves = testTrees([test_point(n,:) 0],trees);
+    leaves = testTrees(test_point(n,:) ,trees);
+    leaves=leaves(leaves~=0);
     % average the class distributions of leaf nodes of all trees
     p_rf = trees(1).prob(leaves,:);
     
@@ -96,7 +99,7 @@ for class = 1:3
         hold on
     end
 end
- 
 
 
+get_Data
 
