@@ -79,9 +79,9 @@ p_rf_sum = sum(p_rf)/length(trees);
 data_test(i,3)=loc;
 end
 
-%% visualise 2d
+% visualise 2d
+figure
 plot_toydata(data_train);
-
 for class = 1:3 
 
     idx= find(data_test(:,3) ==class);

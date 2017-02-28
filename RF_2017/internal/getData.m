@@ -7,7 +7,7 @@ function [ data_train, data_query ] = getData( MODE )
 %   3. Toy_Circle
 %   4. Caltech 101
 
-showImg = 1; % Show training & testing images and their image feature vector (histogram representation)
+showImg = 0; % Show training & testing images and their image feature vector (histogram representation)
 
 PHOW_Sizes = [4 8 10]; % Multi-resolution, these values determine the scale of each layer.
 PHOW_Step = 8; % The lower the denser. Select from {2,4,8,16}
@@ -124,12 +124,13 @@ switch MODE
         
         % K-means clustering
         numBins = 256; % for instance,
+        %###################
+        cluster_centre = init_cluster_centre(desc_tr{1,2},numBins);
         
         
-        % write your own codes here
-        % ...
+        
             
-       
+       %####################
         disp('Encoding Images...')
         % Vector Quantisation
         
