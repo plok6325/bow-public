@@ -115,30 +115,31 @@ switch MODE
                 
                 % For details of image description, see http://www.vlfeat.org/matlab/vl_phow.html
                 [~, desc_tr{c,i}] = vl_phow(single(I),'Sizes',PHOW_Sizes,'Step',PHOW_Step); %  extracts PHOW features (multi-scaled Dense SIFT)
-%                 I = rot90(I);
-%                 [~, desc_tr2{c,i}] = vl_phow(single(I),'Sizes',PHOW_Sizes,'Step',PHOW_Step); %  extracts PHOW features (multi-scaled Dense SIFT)
-%                 I = rot90(I);
-%                  [~, desc_tr3{c,i}] = vl_phow(single(I),'Sizes',PHOW_Sizes,'Step',PHOW_Step); %  extracts PHOW features (multi-scaled Dense SIFT)
-%                
+                %                 I = rot90(I);
+                %                 [~, desc_tr2{c,i}] = vl_phow(single(I),'Sizes',PHOW_Sizes,'Step',PHOW_Step); %  extracts PHOW features (multi-scaled Dense SIFT)
+                %                 I = rot90(I);
+                %                  [~, desc_tr3{c,i}] = vl_phow(single(I),'Sizes',PHOW_Sizes,'Step',PHOW_Step); %  extracts PHOW features (multi-scaled Dense SIFT)
+                %
             end
         end
         
-%         desc_tr= [desc_tr desc_tr2 desc_tr3];
-%         
-         
+        %         desc_tr= [desc_tr desc_tr2 desc_tr3];
+        %
+        
         disp('Building visual codebook...')
         % Build visual vocabulary (codebook) for 'Bag-of-Words method'
         desc_sel = single(vl_colsubset(cat(2,desc_tr{:}), 10e4)); % Randomly select 100k SIFT descriptors for clustering
         
-        % K-means clustering 
-        numBins = 256; % for instance, 
+        % K-means clustering
+        %################################################################
+        numBins = 256; % for instance,
+       
         [Centre, idx] = kmeans(desc_sel ,numBins );
-         
-        disp('Encoding Images...')
-        % Vector Quantisation
         
-        % write your own codes here
-        % ...
+        
+        
+        disp('Encoding Images...')
+        % Vector Quantisation   
         Centre= double(Centre);
         [m,n]=size(desc_tr);
         i=0;
@@ -150,7 +151,9 @@ switch MODE
             end
         end
         
-        data_train = freq(:,1:end-1)./repmat(sum(freq(:,1:end-1),2),1,numBins);
+        freq(:,1:end-1) = freq(:,1:end-1)./repmat(sum(freq(:,1:end-1),2),1,numBins);
+        data_train= freq;
+         %################################################################
         % Clear unused varibles to save memory
         clearvars desc_tr desc_sel freq
 end
@@ -193,10 +196,10 @@ switch MODE
             suptitle('Testing image representations: 256-D histograms');
         end
         
-        % Quantisation 
+        % Quantisation
         % write your own codes here
-        % ... 
-        
+        % ...
+        %#############################################################################
         i=0;
         for class=1:10
             for sample= 1:15
@@ -205,8 +208,11 @@ switch MODE
                 freq(i,:)= [ Quantisation(image,Centre) class];
             end
         end
-        data_query = freq(:,1:end-1)./repmat(sum(freq(:,1:end-1),2),1,numBins);
         
+        freq(:,1:end-1) = freq(:,1:end-1)./repmat(sum(freq(:,1:end-1),2),1,numBins);
+        data_query= freq;
+        
+        %##############################################################################
         
     otherwise % Dense point for 2D toy data
         xrange = [-1.5 1.5];

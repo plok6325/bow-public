@@ -110,50 +110,22 @@ init;
 % Select dataset
 % we do bag-of-words technique to convert images to vectors (histogram of codewords)
 % Set 'showImg' in getData.m to 0 to stop displaying training and testing images and their feature vectors
+tic
 [data_train, data_test] = getData('Caltech');
-close all;
-
-
-
-% Set the random forest parameters ...
-
-param.num = 200;         % Number of trees
-param.depth = 5;        % trees depth
-param.splitNum = 20;     % Number of split functions to try
-param.split = 'IG';     % Currently support 'information gain' only
-param.splitmethod= 2;  % splitmethod == 1  axis align ; splitmethod ==2 ,linear 
-
-% Train Random Forest ...
-trees = growTrees(data_train,param);
-
-
-% Evaluate/Test Random Forest ...
-ground_truth = data_test(:,end);
-res= testTrees_fast(data_test(:,1:end),trees);
-res(res==0)=1;
-for i =  1 :length (res(:,1))
-p_rf = trees(1).prob(res(i,:),:);
-
-p_rf_sum = sum(p_rf)/length(trees);
-[~,loc]=max(p_rf_sum);
-data_test(i,end)=loc;
-end
-
-% show accuracy and confusion matrix ...
-
-cmatrix= confusionmat(data_test(:,end),ground_truth); 
-get_classification_rate(cmatrix)
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-% random forest codebook for Caltech101 image categorisation
-% .....
-
+toc
+ ground_truth=data_train(:,end);
+%normalisation
+% data_train(:,1:end-1)= mapstd(data_train(:,1:end-1));
+% data_test(:,1:end-1)= mapstd(data_test(:,1:end-1));
+ 
 %% external library 
-ground_truth = data_test(:,end);
+
+
+tic
 opts= struct;
 opts.depth= 5;
 opts.numTrees= 200;
-opts.numSplits= 8;
+opts.numSplits= 20;
 opts.verbose= true;
 opts.classifierID= 3; % weak learners to use. Can be an array for mix of weak learners too
 
@@ -167,3 +139,5 @@ yhatTrain = forestTest(m, data_test(:,1:end));
 
 cmatrix= confusionmat(data_test(:,end),ground_truth); 
 get_classification_rate(cmatrix)
+
+toc
