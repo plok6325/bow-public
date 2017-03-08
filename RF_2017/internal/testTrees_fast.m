@@ -1,6 +1,6 @@
 function label = testTrees_fast(data,tree)
 % Faster version - pass all data at same time
-disp('Testing Random Forest...');
+% disp('Testing Random Forest...');
 
 cnt = 1;
 splitmethod = length(tree(1).node(1).t)==1;

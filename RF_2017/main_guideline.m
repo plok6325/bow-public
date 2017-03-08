@@ -1,48 +1,39 @@
-% Simple Random Forest Toolbox for Matlab
-% written by Mang Shao and Tae-Kyun Kim, June 20, 2014.
-% updated by Tae-Kyun Kim, Feb 09, 2017
-
-% This is a guideline script of simple-RF toolbox.
-% The codes are made for educational purposes only.
-% Some parts are inspired by Karpathy's RF Toolbox
-
-% Under BSD Licence
-
-% Initialisation
+clear all 
+close all 
+addpath(genpath('./Random-Forest-Matlab/'));
 init;
-
-% Select dataset
+%%  Select dataset
 [data_train, data_test] = getData('Toy_Spiral'); % {'Toy_Gaussian', 'Toy_Spiral', 'Toy_Circle', 'Caltech'}
-
-
-%%%%%%%%%%%%%
-% check the training and testing data
-    % data_train(:,1:2) : [num_data x dim] Training 2D vectors
-    % data_train(:,3) : [num_data x 1] Labels of training data, {1,2,3}
-    
+ 
 plot_toydata(data_train);
-
-    % data_test(:,1:2) : [num_data x dim] Testing 2D vectors, 2D points in the
-    % uniform dense grid within the range of [-1.5, 1.5]
-    % data_train(:,3) : N/A
-    
 scatter(data_test(:,1),data_test(:,2),'.b');
 
+%% bagging  
 
-% Set the random forest parameters for instance, 
+
+for i  = 1:4
+    subplot(2,2,i)
+  [data_train_sub{i}] =  get_sub_set(data_train , 1) ;
+plot_toydata(data_train_sub{i});
+end
+title ('visualisation of 4 subset')
+ 
+%%   Train Random Forest
 param.num = 10;         % Number of trees
 param.depth = 5;        % trees depth
 param.splitNum = 3;     % Number of split functions to try
 param.split = 'IG';     % Currently support 'information gain' only
-
-%%%%%%%%%%%%%%%%%%%%%%
-% Train Random Forest
-
 % Grow all trees
 trees = growTrees(data_train,param);
 
-
-%%%%%%%%%%%%%%%%%%%%%%
+%% plot leaf node dist 
+figure 
+[r,c]=size(trees(1).prob);
+for i =1 :4
+subplot(2,2,i)
+bar(trees(1).prob(randi(r),:))
+end
+%%
 % Evaluate/Test Random Forest
 
 % grab the few data points and evaluate them one by one by the leant RF
@@ -68,7 +59,6 @@ res= testTrees_fast(data_test(:,1:2),trees);
 res(res==0)=1;
 for i =  1 :length (res)
 p_rf = trees(1).prob(res(i,:),:);
-
 p_rf_sum = sum(p_rf)/length(trees);
 [~,loc]=max(p_rf_sum);
 data_test(i,end)=loc;
@@ -110,34 +100,48 @@ init;
 % Select dataset
 % we do bag-of-words technique to convert images to vectors (histogram of codewords)
 % Set 'showImg' in getData.m to 0 to stop displaying training and testing images and their feature vectors
-tic
+
 [data_train, data_test] = getData('Caltech');
-toc
- ground_truth=data_train(:,end);
-%normalisation
-% data_train(:,1:end-1)= mapstd(data_train(:,1:end-1));
-% data_test(:,1:end-1)= mapstd(data_test(:,1:end-1));
  
-%% external library 
+% external library 
 
-
-tic
 opts= struct;
 opts.depth= 5;
-opts.numTrees= 200;
+opts.numTrees= 300;
 opts.numSplits= 20;
 opts.verbose= true;
 opts.classifierID= 3; % weak learners to use. Can be an array for mix of weak learners too
-
-X =data_train(:,1:end);
-Y = data_train(:,end);
+X =data_train(:,1:end-1);
+Y =data_train(:,end);
 
 m= forestTrain(X, Y, opts);
 
-yhatTrain = forestTest(m, data_test(:,1:end));
+yhatTrain = forestTest(m, data_test(:,1:end-1));
 
 
-cmatrix= confusionmat(data_test(:,end),ground_truth); 
+cmatrix= confusionmat(Y,yhatTrain); 
 get_classification_rate(cmatrix)
 
-toc
+%% RF as codebook 
+
+
+
+[data_train, data_test] = getData_rf();
+
+
+opts= struct;
+opts.depth= 5;
+opts.numTrees= 300;
+opts.numSplits= 20;
+opts.verbose= true;
+opts.classifierID= 3; % weak learners to use. Can be an array for mix of weak learners too
+X =data_train(:,1:end-1);
+Y =data_train(:,end);
+
+m= forestTrain(X, Y, opts);
+
+yhatTrain = forestTest(m, data_test(:,1:end-1));
+
+
+cmatrix= confusionmat(Y,yhatTrain); 
+get_classification_rate(cmatrix)

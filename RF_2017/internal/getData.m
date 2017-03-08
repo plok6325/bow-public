@@ -132,7 +132,7 @@ switch MODE
         
         % K-means clustering
         %################################################################
-        numBins = 256; % for instance,
+        numBins = 100; % for instance,
        
         [Centre, idx] = kmeans(desc_sel ,numBins );
         
