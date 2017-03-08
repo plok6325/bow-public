@@ -70,11 +70,7 @@ for  i = 1:10
     end
 end
 desc_sel = single(vl_colsubset(desc_tr1 , 10e4)); % Randomly select 100k SIFT descriptors for clustering
-
-% K-means clustering
-%################################################################
-
-
+ 
 desc_sel =desc_sel';
 
 X=desc_sel(:,1:end-1);
@@ -83,10 +79,10 @@ Y = desc_sel(:,end);
 
  
 param.num = 15;         % Number of trees
-param.depth = 5;        % trees depth
+param.depth = 8;        % trees depth
 param.splitNum = 20;     % Number of split functions to try
 param.split = 'IG';     % Currently support 'information gain' only
-param.splitmethod= 2; 
+param.splitmethod= 1; 
  
 
 rf= growTrees(desc_sel,param);

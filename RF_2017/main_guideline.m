@@ -125,7 +125,7 @@ get_classification_rate(cmatrix)
 %% RF as codebook 
 
 
-
+tic 
 [data_train, data_test] = getData_rf();
 
 
@@ -145,3 +145,4 @@ yhatTrain = forestTest(m, data_test(:,1:end-1));
 
 cmatrix= confusionmat(Y,yhatTrain); 
 get_classification_rate(cmatrix)
+toc
