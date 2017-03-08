@@ -1,4 +1,4 @@
-function [ data_train, data_query ] = getData_rf(   )
+function [ data_train, data_test ] = getData_rf(   )
 
 showImg = 0; % Show training & testing images and their image feature vector (histogram representation)
 
