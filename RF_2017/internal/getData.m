@@ -1,12 +1,6 @@
 function [ data_train, data_query ] = getData( MODE )
 % Generate training and testing data
 
-% Data Options:
-%   1. Toy_Gaussian
-%   2. Toy_Spiral
-%   3. Toy_Circle
-%   4. Caltech 101
-
 showImg = 0; % Show training & testing images and their image feature vector (histogram representation)
 
 PHOW_Sizes = [4 8 10]; % Multi-resolution, these values determine the scale of each layer.
